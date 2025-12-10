@@ -10,13 +10,45 @@
   <link rel="icon" type="image\png" sizes="96x96" href="images\ico\favicon-96x96.png">
   <link rel="apple-touch-icon" href="images\ico\apple-touch-icon.png">
   <link rel="manifest" href="images\ico\site.webmanifest">
-  <meta name="theme-color" content="#42b983">
+  <meta name="theme-color" content="#1a1a1a">  <!-- 修改为深色主题颜色 -->
   <meta name="msapplication-config" content="images\ico\browserconfig.xml" >
-  <meta name="msapplication-TileColor" content="#42b983">
+  <meta name="msapplication-TileColor" content="#1a1a1a">  <!-- 修改为深色 -->
   <meta name="msapplication-TileImage" content="images\ico\web-app-manifest-192x192.png">
   <link rel="stylesheet" href="dist\themes\core.min.css">
   <link rel="stylesheet" href="dist\plugins\prim\prism-tomorrow.min.css">
   <style>
+    /* 默认深色主题样式 */
+    :root {
+      --sidebar-width: 220px;
+      --content-max-width: 100ch;
+      --content-margin-inline: 50px;
+      /* 深色主题变量 */
+      --color-bg: #1a1a1a;
+      --color-text: #e0e0e0;
+      --color-mono-min: #1a1a1a;
+      --color-mono-max: #e0e0e0;
+      --strong-color: #ffffff;
+      --border-color: #333333;
+      --code-bg: #2d2d2d;
+      --sidebar-bg: #1e1e1e;
+      --sidebar-border-color: #333333;
+      --sidebar-link-color: #cccccc;
+      --sidebar-group-title-color: #ffffff;
+      --sidebar-name-color: #ffffff;
+      --navbar-link-color: #cccccc;
+      --form-element-bg: #2d2d2d;
+      --form-element-border-color: #444444;
+      --table-row-alt-bg: #2d2d2d;
+      --callout-bg: #2d2d2d;
+      --theme-color: #42b983;
+      --theme-color-6: #3aa876;
+    }
+    
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+    }
+    
     .markdown-section a {
       color: var(--theme-color, #42b983);
       text-decoration: none;
@@ -28,11 +60,7 @@
       color: var(--theme-color-6, #3aa876);
       background: linear-gradient(transparent 50%, color-mix(in srgb, var(--theme-color, #42b983) 30%, transparent) 50%);
     }
-    :root {
-      --sidebar-width: 220px;
-      --content-max-width: 100ch;
-      --content-margin-inline: 50px;
-    }
+
     .theme-toggle {
       position: fixed;
       top: 20px;
@@ -56,22 +84,25 @@
       transform: translateY(-1px);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
-    .dark-mode .theme-toggle {
+    .light-mode .theme-toggle {
       background: color-mix(in srgb, var(--color-bg) 95%, var(--color-text) 5%);
       color: var(--color-text);
       border-color: color-mix(in srgb, var(--border-color) 40%, transparent 60%);
     }
-    .dark-mode .theme-toggle:hover {
+    .light-mode .theme-toggle:hover {
       background: color-mix(in srgb, var(--color-bg) 90%, var(--color-text) 10%);
       border-color: color-mix(in srgb, var(--border-color) 70%, transparent 30%);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
+    
     .markdown-section pre {
       border-radius: 8px;
       padding: 1.2em;
       overflow: auto;
       margin: 1.2em 0;
       position: relative;
+      background-color: var(--code-bg);
+      border: 1px solid var(--border-color);
     }
     .markdown-section pre code {
       font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
@@ -79,16 +110,16 @@
       line-height: 1.5;
       background: transparent !important;
     }
-    .dark-mode .markdown-section pre {
-      background-color: #1e1e1e;
-      border: 1px solid #333;
+    .light-mode .markdown-section pre {
+      background-color: var(--color-mono-1);
+      border: 1px solid var(--color-mono-3);
     }
     .markdown-section pre::before {
       content: attr(data-language);
       position: absolute;
       top: 0;
       right: 0;
-      background: #42b983;
+      background: var(--theme-color, #42b983);
       color: white;
       padding: 2px 8px;
       font-size: 0.8em;
@@ -101,7 +132,7 @@
       right: 60px;
       background: rgba(66, 185, 131, 0.1);
       border: 1px solid rgba(66, 185, 131, 0.3);
-      color: #42b983;
+      color: var(--theme-color, #42b983);
       cursor: pointer;
       font-size: 0.8em;
       padding: 2px 8px;
@@ -117,8 +148,8 @@
     }
   </style>
 </head>
-<body>
-  <button class="theme-toggle" id="themeToggle">🌙 切换到深色</button>
+<body class="dark-mode">
+  <button class="theme-toggle" id="themeToggle">☀️ 切换到浅色</button>
   <div id="app"></div>
   <script>
     window.$docsify = {
@@ -194,10 +225,13 @@
         }
       ]
     };
+    
     document.addEventListener('DOMContentLoaded', function() {
       const themeToggle = document.getElementById('themeToggle');
       const body = document.body;
       const root = document.documentElement;
+      
+      // 定义主题变量
       const darkTheme = {
         '--color-bg': '#1a1a1a',
         '--color-text': '#e0e0e0',
@@ -215,8 +249,11 @@
         '--form-element-bg': '#2d2d2d',
         '--form-element-border-color': '#444444',
         '--table-row-alt-bg': '#2d2d2d',
-        '--callout-bg': '#2d2d2d'
+        '--callout-bg': '#2d2d2d',
+        '--theme-color': '#42b983',
+        '--theme-color-6': '#3aa876'
       };
+      
       const lightTheme = {
         '--color-bg': '#fff',
         '--color-text': '#333',
@@ -234,36 +271,74 @@
         '--form-element-bg': 'var(--color-mono-1)',
         '--form-element-border-color': 'var(--color-mono-3)',
         '--table-row-alt-bg': 'var(--color-mono-1)',
-        '--callout-bg': ''
+        '--callout-bg': '',
+        '--theme-color': '#42b983',
+        '--theme-color-6': '#3aa876'
       };
+      
+      // 设置默认主题为深色
       const savedTheme = localStorage.getItem('docsify-theme');
-      if (savedTheme === 'dark') {
-        applyTheme(darkTheme);
-        body.classList.add('dark-mode');
-        themeToggle.textContent = '☀️ 切换到浅色';
-      } else {
+      if (savedTheme === 'light') {
+        // 如果用户之前选择了浅色，尊重用户选择
         applyTheme(lightTheme);
         body.classList.remove('dark-mode');
+        body.classList.add('light-mode');
         themeToggle.textContent = '🌙 切换到深色';
+      } else {
+        // 默认使用深色主题
+        applyTheme(darkTheme);
+        body.classList.add('dark-mode');
+        body.classList.remove('light-mode');
+        themeToggle.textContent = '☀️ 切换到浅色';
+        localStorage.setItem('docsify-theme', 'dark');
       }
+      
       themeToggle.addEventListener('click', function() {
-        const currentBg = getComputedStyle(root).getPropertyValue('--color-bg').trim();
-        if (currentBg === '#1a1a1a') {
+        if (body.classList.contains('dark-mode')) {
+          // 当前是深色，切换到浅色
           applyTheme(lightTheme);
           body.classList.remove('dark-mode');
+          body.classList.add('light-mode');
           themeToggle.textContent = '🌙 切换到深色';
           localStorage.setItem('docsify-theme', 'light');
+          
+          // 更新 meta theme-color
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff');
+          document.querySelector('meta[name="msapplication-TileColor"]').setAttribute('content', '#ffffff');
         } else {
+          // 当前是浅色，切换到深色
           applyTheme(darkTheme);
           body.classList.add('dark-mode');
+          body.classList.remove('light-mode');
           themeToggle.textContent = '☀️ 切换到浅色';
           localStorage.setItem('docsify-theme', 'dark');
+          
+          // 更新 meta theme-color
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#1a1a1a');
+          document.querySelector('meta[name="msapplication-TileColor"]').setAttribute('content', '#1a1a1a');
         }
       });
+      
       function applyTheme(theme) {
         Object.keys(theme).forEach(variable => {
           root.style.setProperty(variable, theme[variable]);
         });
+      }
+      
+      // 确保 docsify 初始化时使用正确主题
+      if (window.$docsify) {
+        const originalInit = window.$docsify.init;
+        window.$docsify.init = function() {
+          if (typeof originalInit === 'function') {
+            originalInit.call(this);
+          }
+          // 确保主题在 docsify 加载后应用
+          setTimeout(() => {
+            if (body.classList.contains('dark-mode')) {
+              applyTheme(darkTheme);
+            }
+          }, 100);
+        };
       }
     });
   </script>
