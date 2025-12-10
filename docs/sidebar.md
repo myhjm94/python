@@ -1,7 +1,0 @@
-- 基础知识
-    - [Python介绍](README.md)
-- 章节知识
-    - [print函数](print.md)
-    - [input函数](input.md)
-    - [变量](variable.md)
-    - [分支结构(if)](if.md)
